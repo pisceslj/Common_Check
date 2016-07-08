@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>老师管理-初审任务-{$site.SITE_INFO.name}</title>
+        <php>
+            $addCss="";
+            $addJs="";
+            $currentNav ='老师管理 > 初审任务';
+        </php>
+        <css href="__PUBLIC__/Css/base.css" />
+        <css href="__PUBLIC__/Css/default.css"/>
+        <css href="__PUBLIC__/Css/layout.css" />
+        <css href="__PUBLIC__/Css/style.css" />
+        <js  href="__PUBLIC__/Js/jquery-1.9.0.min.js" />
+        <js  href="__PUBLIC__/Js/functions.js" />
+        <js  href="__PUBLIC__/Js/jquery.form.js" />
+        <js  href="__PUBLIC__/Js/asyncbox.js" />
+        <js  href="__PUBLIC__/Js/base.js" />
+        <js  href="__PUBLIC__/Js/jquery-1.11.2.min.js" />
+        <js href="__PUBLIC__/Js/app.js" />
+    </head>
+    <body>
+        <div class="wrap">
+            <include file="Common:head" />
+            <div class="mainBody">
+                <include file="Common:left" />
+                <div id="Right">
+                    <div class="Item hr">
+                        <div class="current">论文初审管理</div>
+                    </div>
+                    <form >
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                            <thead>
+                                <tr>
+                                    <td width="90"><label><input name="" class="chooseAll" type="checkbox"/> 全选</label> <label><input name="" class="unsetAll" type="checkbox"/> 反选</label></td>
+                                    <td>论文标题</td>
+                                    <td>状态</td>
+                                    <td>发布时间</td>
+                                    <td>发布人</td>
+                                    <td>操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <volist name="list" id="paper">
+                                    <tr align="center">
+                                        <td class="center" width="90">
+                                            <input class="uids" type="checkbox" name="uids[]" value="{$paper['uuf_user_id']}">
+                                        </td>
+                                        <td>{$paper.uuf_true_name}</td>
+                                        <td><if condition="$paper.status eq 0">未审核
+                                        <elseif condition="$paper.status eq 1"/>初审
+                                        <elseif condition="$paper.status eq 2"/>复审
+                                        <else />已审核</if></td>
+                                        <td>{$paper.uuf_last_update_record_id}</td>
+                                        <td>{$paper.uuf_user_id}</td>
+                                        <td class="center">
+                   <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg_1" ><a link="{:U('Teacher/look')}?uid={$paper['uuf_user_id']}" >浏览</a></button>
+                   <a href="{:U('Teacher/mark')}?uids={$paper['uuf_user_id']}"><input type="button" class="btn btn-default" value="打分"></input></a>
+                                        </td>
+                                    </tr>
+                                </volist>
+                            </tbody>
+                        </table>
+                         <div class="commonBtnArea" >
+                        <span class="fr" id="opStatus" style="width:450px; display: none; margin: -8px; line-height: 16px;"></span>
+                         <a href="{:U('Teacher/sendBack')}?uids={$paper['uuf_user_id']}"><input type="button" class="btn" value="退回初审论文"></input></a>
+                    </div>
+                    </form>
+                    <div class="modal fade bs-example-modal-lg_1" tabindex="-1" role="dialog" aria-hidden="true">
+                       <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                                <volist name="png" id="v">
+                                    <img src="__UPLOAD__/PNG/{$v.png_name}" />
+                                </volist>
+                            </div>
+                           <div class="modal-footer">
+                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                           </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+       
+        <include file="Common:foot" />
+
+    </body>
+</html>

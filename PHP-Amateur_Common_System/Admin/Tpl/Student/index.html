@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>信息管理-{$site.SITE_INFO.name}</title>
+        <php>
+            $addCss="";
+            $addJs="";
+            $currentNav ='网站管理 > 信息列表';
+        </php>
+        <include file="Common:intoHead" />
+    </head>
+    <body>
+        <div class="wrap">
+            <include file="Common:head" />
+            <div class="mainBody">
+                <include file="Common:left" />
+                <div id="Right">
+                    <div class="Item hr">
+                        <div class="current">通知列表</div>
+                    </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                        <thead>
+                            <tr>
+                                <td>通知标题</td>
+                                <td>通知内容</td>
+                                <td>发布人</td>
+                                <td>发布时间</td>
+                            </tr>
+                        </thead>
+                        <volist name="notice" id="vo">
+                            <tr align="center" id="{$vo.notice_id}">
+                                <td>{$vo.notice_subject}</td>
+                                <td>{$vo.notice_content}</td>
+                                <td><if condition="($vo.notice_user_id eq 0)">管理员
+                                <elseif condition="$vo.notice_user_id eq 1"/>教务处
+                                <else />老师</if></td>
+                                <td>{$vo.notice_update_time}</td>
+                            </tr>
+                        </volist>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <include file="Common:foot" />
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>系统管理-复审任务分配</title>
+        <php>
+            $addCss="";
+            $addJs="";
+            $currentNav ='任务分配 > 复审任务分配';
+        </php>
+        <include file="Common:intoHead" />
+    </head>
+    <body>
+        <div class="wrap">
+            <include file="Common:head" />
+            <div class="mainBody">
+                <include file="Common:left" />
+                <div id="Right">
+                    <div class="Item hr">
+                        <div class="current">复审任务分配</div>
+                    </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                        <thead>
+                            <tr>
+                                <td width="90"><label><input name="" class="chooseAll" type="checkbox"/> 全选</label> <label><input name="" class="unsetAll" type="checkbox"/> 反选</label></td>
+                                <td>学院</td>
+                                <td>学号</td>
+                                <td>姓名</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                        <volist name="list" id="vo">
+                            <tr align="center" id="{$vo.id}">
+                                <td class="center">
+                                    <input class="uid" type="checkbox" name="uid[]" value="{$vo['stuId']}">
+                                </td>
+                                <td><if condition="$vo.major eq 1">电子工程学院
+                                <elseif condition="$vo.major eq 2"/>****学院
+                                <elseif condition="$vo.major eq 22"/>信息与软件工程学院
+                                <else />*****</if></td>
+                                <td>{$vo.stuId}</td>
+                                <td>{$vo.stuName}</td>
+                                <td>[ <a href="{:U('Access/reallocation')}?uid={$vo['stuId']}">分类 </a> ] [ <a link="{:U('Access/del/',array('id'=>$vo['stuId']))}" href="{:U("")}" name="{$vo.title}" class="del">删除 </a> ]</td>
+                            </tr>
+                        </volist>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <include file="Common:foot" />
+         <script type="text/javascript">
+            $(function(){
+                $(".del").click(function(){
+                    var delLink=$(this).attr("link");
+                    popup.confirm('你真的打算删除【<b>'+$(this).attr("name")+'</b>】吗?','温馨提示',function(action){
+                        if(action == 'ok'){
+                            top.window.location.href=delLink;
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>老师管理-评分-{$site.SITE_INFO.name}</title>
+        <php>
+            $addCss="";
+            $addJs="";
+            $currentNav ='老师管理 > 评分';
+        </php>
+        <css href="__PUBLIC__/Css/base.css" />
+        <css href="__PUBLIC__/Css/default.css"/>
+        <css href="__PUBLIC__/Css/layout.css" />
+        <js  href="__PUBLIC__/Js/jquery-1.9.0.min.js" />
+        <js  href="__PUBLIC__/Js/functions.js" />
+        <js  href="__PUBLIC__/Js/jquery.form.js" />
+        <js  href="__PUBLIC__/Js/asyncbox.js" />
+        <js  href="__PUBLIC__/Js/base.js" />
+        <js  href="__PUBLIC__/Js/jquery-1.11.2.min.js" />
+        <js href="__PUBLIC__/Js/app.js" />
+    </head>
+    <body>
+        <div class="wrap">
+            <include file="Common:head" />
+            <div class="mainBody">
+                <include file="Common:left" />
+                <div id="Right">
+                    <div class="Item hr">
+                        <div class="current">论文评分</div>
+                    </div>
+                    <form action="{:U('Teacher/update')}" method="post">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                            <thead>
+                                <tr>
+                                    <td>论文格式(10)</td>
+                                    <td>主体内容(40)</td>
+                                    <td>代码质量(20)</td>
+                                    <td>完成程度(15)</td>
+                                    <td>心得总结(15)</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr align="center">
+                                    <td><input class="input" name="format" id="format" size="15" type="format" /></td>
+                                    <td><input class="input" name="content" id="content" size="15" type="content" /></td>
+                                    <td><input class="input" name="quality" id="quality" size="15" type="quality" /></td>
+                                    <td><input class="input" name="complete" id="complete" size="15" type="complete" /></td>
+                                    <td><input class="input" name="summary" id="summary" size="15" type="summary" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="commonBtnArea" >
+                            <span class="fr" id="opStatus" style="width:450px; display: none; margin: -8px; line-height: 16px;"></span>
+                            <button class="btn submit" type="">提交</button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+<include file="Common:foot" />
+<script type="text/javascript">
+    $(".submit").click(function(){
+        if($.trim($("input[name='format']").val())==''){
+            popup.alert("论文格式分数不能为空");
+            return false;
+        }
+        if($.trim($("input[name='content']").val())==''){
+            popup.alert("主体内容分数不能为空");
+            return false;
+        }
+        if($.trim($("input[name='quality']").val())==''){
+            popup.alert("代码质量分数不能为空");
+            return false;
+        }
+        if($.trim($("input[name='complete']").val())==''){
+            popup.alert("完成程度分数不能为空");
+            return false;
+        }
+        if($.trim($("input[name='summary']").val())==''){
+            popup.alert("心得总结分数不能为空");
+            return false;
+        }
+    });
+</script>
+    </body>
+</html>

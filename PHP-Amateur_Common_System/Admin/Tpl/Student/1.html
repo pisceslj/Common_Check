@@ -1,0 +1,27 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+                            <tr>
+                                <th width="100">毕设题目：</th>
+                                <td><input id="title" type="text" class="input" size="60" name="info[title]" value="{$file.title}"/> <a href="javascript:void(0)" id="checkPapersTitle">检测是否重复</a></td>
+                            </tr>
+                            <tr>
+                                <th>所属分类：</th>
+                                <td>
+                                    <select name="info[cid]">
+                                        <volist name="list" id="vo">
+                                            <if condition="$vo[cid] eq $info[cid]">
+                                                <option value="{$vo.cid}" selected="selected">{$vo.fullname}</option>
+                                                <else/>
+                                                <option value="{$vo.cid}">{$vo.fullname}</option>
+                                            </if>
+                                        </volist>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>上传文件：</th>
+                                <td><input  type="file" name="file" style="height:30px;width:150px"><br/></td>
+                            </tr>
+                            <tr>
+                                <td><input id="submit" type="submit" class="btn2" value="提交" /></td>
+                            </tr>
+                        </table>

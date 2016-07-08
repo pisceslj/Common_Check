@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>学生管理-上传毕设</title>
+        <php>$currentNav ='论文管理 > 上传毕设';</php>
+        <css href="__PUBLIC__/Css/base.css" />
+        <css href="__PUBLIC__/Css/default.css"/>
+        <css href="__PUBLIC__/Css/layout.css" />
+        <js  href="__PUBLIC__/Js/jquery-1.9.0.min.js" />
+        <js  href="__PUBLIC__/Js/functions.js" />
+        <js  href="__PUBLIC__/Js/jquery.form.js" />
+        <js  href="__PUBLIC__/Js/asyncbox.js" />
+        <js  href="__PUBLIC__/Js/base.js" />
+    </head>
+    <body>
+        <div class="wrap">
+            <include file="Common:head" />
+            <div class="mainBody">
+                <include file="Common:left" />
+                <div id="Right">
+                    <div class="Item hr">
+                        <div class="current">上传毕业设计</div>
+                    </div>
+                    <form action="{:U('Student/upload')}" method="post" enctype="multipart/form-data">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+                            <tr style="float: left;">
+                                <th>提交纸质档：</th>
+                                <td><select name="doc" style="width: 100px;">
+                                           <option value="1">已提交纸质档</option>
+                                           <option value="0">未提交纸质档</option>
+                                    </select><br/>
+                                </td>
+                            </tr>
+                            <tr style="float: left;">
+                                <th>指导老师：</th>
+                                <td><select name="tech_id" style="width: 100px;">{$info.roleOption}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input name="file" id="file" type="file" style="height:30px;margin-left: 90px;margin-top: 20px;"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="submit" value="提交" class="btn2" >
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <include file="Common:foot" />
+    </body>
+</html>
