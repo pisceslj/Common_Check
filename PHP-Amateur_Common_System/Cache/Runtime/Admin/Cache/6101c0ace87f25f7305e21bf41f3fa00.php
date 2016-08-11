@@ -66,9 +66,9 @@
                                 <td><?php echo ($k); ?></td>
                                 <td><?php echo ($vo["id"]); ?></td>
                                 <td><?php echo ($vo["name"]); ?></td>
-                                <td align="left"><?php echo ($vo["remark"]); ?></td>
+                                <td align="center"><?php echo ($vo["remark"]); ?></td>
                                 <td><?php echo ($vo["statusTxt"]); ?></td>
-                                <td><?php if($vo["pid"] == 0): ?>--<?php else: ?>[ <a href="javascript:void(0);" class="opStatus" val="<?php echo ($vo["status"]); ?>"><?php echo ($vo["chStatusTxt"]); ?></a> ] [ <a href="__URL__/editRole?id=<?php echo ($vo["id"]); ?>" class="edit">编辑</a> ] [ <a href="__URL__/changeRole?id=<?php echo ($vo["id"]); ?>" class="edit">权限分配</a> ]<?php endif; ?></td>
+                                <td><?php if($vo["pid"] == 0): ?>--<?php else: ?>[ <a href="javascript:void(0);" class="opStatus" val="<?php echo ($vo["status"]); ?>"><?php echo ($vo["chStatusTxt"]); ?></a> ] [ <a href="__URL__/editRole?id=<?php echo ($vo["id"]); ?>" class="edit">编辑</a> ]<?php endif; ?></td>
                             </tr><?php endforeach; endif; else: echo "" ;endif; ?>
                     </table>
                 </div>

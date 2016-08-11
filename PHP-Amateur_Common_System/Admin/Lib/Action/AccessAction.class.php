@@ -9,7 +9,116 @@ public function index() {
         $this->assign("list", D("Access")->adminList());//调用adminList函数
         $this->display();
 }
-  
+
+/**
+  * 添加管理员
+  */
+public function addUser() {
+        $data = D('User');
+        $role = D("role_user");
+      
+        if(!empty($_POST)){
+            $d=$data->where('user_id='.$_POST['user_id'])->select(); 
+            $n=$data->where('user_name='.$_POST['user_name'])->select(); 
+           // dump($d);
+            if(!empty($d)){
+                $this->error('该UID已被使用');
+            }
+            if(!empty($n)){
+                $this->error('该用户名已被注册');
+            }           
+            $msg = $data->create();
+            $rol = $role->create();
+            if($msg&&$rol){
+                $msg['user_id'] = md5($_POST['user_name']);
+                $msg['user_name'] = $_POST['user_name'];
+                $msg['user_pwd'] = md5($_POST['user_pwd']);
+                $msg['status'] = 1;
+                $msg['time'] = time();
+                if(!empty($_POST['remark']))
+                    $msg['remark'] = $_POST['remark'];
+                else
+                    $msg['remark'] = NULL;
+
+                $rol['role_id'] = $_POST['role_id'];
+                $rol['user_id'] = md5($_POST['user_name']);
+                //dump($rol);
+                $z = $data->add($msg);
+                $q = $role->add($rol);
+                if ($z&&$q) {
+                    $this->success('添加成功，页面跳转中','index');
+                }   
+            }else{
+                    $this->assign('error_info',$data->getError());
+                    $this->display();
+            }
+        }else{
+            $this->display();            
+        }
+}
+
+ 
+/**
+  * 用户编辑
+ */
+public function editUser(){
+        $data = D("User");
+        $role = D("role_user");
+        $data_id = $_GET['uid'];
+
+        if (!empty($_POST)) {
+            $data1 = $data->where('user_id = ' . $_POST['user_id'])->find();
+            $data1['user_id']   = $_POST['user_id'];
+            $data1['user_name'] = $_POST['user_name'];
+            if($data1['user_pwd'] != $_POST['user_pwd'])//防止未修改密码时再次被md5加密
+            {
+               $data1['user_pwd']  = MD5($_POST['user_pwd']);
+            }else{
+               $data1['user_pwd']  = $_POST['user_pwd'];
+            }
+            $data1['status'] = $_POST['status'];
+            $data1['time']   = time();
+            $data1['remark'] = $_POST['remark'];  
+            $data2['role_id']=$_POST['role_id'];
+
+            $z = $data->where('user_id = ' . $data1['user_id'])->save($data1);
+            $q = $role->where('user_id = ' . $data1['user_id'])->save($data2);
+            //echo $data->getLastSql();
+            if ($z||$q) {
+                $this->success('修改成功，页面跳转中','index');
+                //echo "success";
+            } else {
+                $this->error('修改失败或未作修改');
+                //echo "error";
+            }
+            
+        } else {
+            $data_info = $data->find($data_id);
+            $role_info = $role->where('user_id' . ' = ' . $data_id)->find();
+            $this->assign('data_info',$data_info);
+            $this->assign('role_info',$role_info);            
+            $this->display();     
+        }
+}
+/**
+  * 用户删除
+  */
+public function delete(){
+        $data = D("User");
+        $role = D("role_user");
+        $data_id = $_GET['uid'];
+        $z = $data->where('user_id' . ' = ' . $data_id)->delete();
+        $q = $role->where('user_id' . ' = ' . $data_id)->delete();
+        
+        if(!($z&&$q)){
+            $this->success('删除成功，页面跳转','index');
+        }else{
+            $this->error('删除失败','index');
+            // echo "error";
+        }
+}
+
+
 /**
   * 任务分配
   */
@@ -199,19 +308,6 @@ public function opRoleStatus() {
         }
     }
 
-/**
-  * 添加管理员
-  */
-public function addAdmin() {
-    if (IS_POST) {
-        $p = D("Access")->addAdmin();
-        if($p['status'] = 1)
-            $this->success('添加成功！',U('Access/addAdmin'));
-        }else {
-            $this->assign("info", $this->getRoleListOption(array('role_id' => 0)));
-            $this->display();
-        }
-}
 
     public function changeRole() {
         header('Content-Type:application/json; charset=utf-8');

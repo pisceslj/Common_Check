@@ -90,8 +90,16 @@
                                         <?php else: ?>已审核<?php endif; ?></td>
                                     <td><?php echo ($paper["uuf_last_update_record_id"]); ?></td>
                                     <td><?php echo ($paper["uuf_user_id"]); ?></td>
-                                    <td class="center"><button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg_1"><a href="<?php echo U('Teacher/look');?>?uid=<?php echo ($paper['uuf_user_id']); ?>">浏览</a></button>
-                   <a href="<?php echo U('Teacher/mark');?>?uids=<?php echo ($paper['uuf_user_id']); ?>"><input type="button" class="btn btn-default" value="打分"></input></a>
+                                    <td class="center">
+                                    <a href="javascript:void(0)?uids=<?php echo ($paper['uuf_user_id']); ?>">
+                                        <button type="button" class="btn btn-default" value="浏览"  data-toggle="modal" data-target=".bs-example-modal-lg_1">
+                                        浏览</button>
+                                        </a>
+                                        <a href="<?php echo U('Teacher/mark');?>?uids=<?php echo ($paper['uuf_user_id']); ?>">
+                                        <input type="button" class="btn btn-default" value="打分">
+                                        </input>
+                                        </a>
+                                                                      
                                     </td>
                                 </tr><?php endforeach; endif; else: echo "" ;endif; ?>
                         </tbody>

@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-05-04 10:02:19
--- 服务器版本： 5.1.62-community
+-- Generation Time: 2016-08-10 09:24:56
+-- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -19,6 +19,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `common_check`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ess_access`
+--
+
+CREATE TABLE IF NOT EXISTS `ess_access` (
+  `role_id` smallint(6) unsigned NOT NULL,
+  `node_id` smallint(6) unsigned NOT NULL,
+  `level` tinyint(1) NOT NULL,
+  `module` varchar(50) DEFAULT NULL,
+  KEY `groupId` (`role_id`),
+  KEY `nodeId` (`node_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -56,6 +71,14 @@ CREATE TABLE IF NOT EXISTS `ess_department_code` (
   PRIMARY KEY (`dep_id`),
   KEY `FK_sch_dep` (`sch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `ess_department_code`
+--
+
+INSERT INTO `ess_department_code` (`dep_id`, `sch_id`, `dep_name`, `dep_notes`) VALUES
+(1, 22, '嵌入式系统系', NULL),
+(2, 22, '软件工程系', NULL);
 
 -- --------------------------------------------------------
 
@@ -126,24 +149,26 @@ CREATE TABLE IF NOT EXISTS `ess_enterprise_post` (
 --
 
 CREATE TABLE IF NOT EXISTS `ess_group` (
-  `group_id` int(11) NOT NULL,
-  `group_name` varchar(32) DEFAULT NULL,
-  `group_notes` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
+  `gid` int(5) NOT NULL AUTO_INCREMENT,
+  `pid` int(5) DEFAULT NULL COMMENT 'parentCategory上级分组',
+  `name` varchar(20) DEFAULT NULL COMMENT '分组名称',
+  PRIMARY KEY (`gid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='管理分组表' AUTO_INCREMENT=30000002 ;
 
 --
--- 表的结构 `ess_group_rule`
+-- 转存表中的数据 `ess_group`
 --
 
-CREATE TABLE IF NOT EXISTS `ess_group_rule` (
-  `rule_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  PRIMARY KEY (`rule_id`,`group_id`),
-  KEY `FK_group_rule3` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `ess_group` (`gid`, `pid`, `name`) VALUES
+(11111111, 0, '王小明'),
+(20000001, 0, '张小琴'),
+(30000001, 0, '查小华'),
+(22000001, 22, '肖小明'),
+(22000002, 22, '杨小芳'),
+(22000003, 22, '李小华'),
+(22000004, 22, '赵小刀'),
+(22000005, 22, '钱小东'),
+(22000006, 22, '孙小庆');
 
 -- --------------------------------------------------------
 
@@ -166,6 +191,28 @@ INSERT INTO `ess_highest_education_code` (`he_id`, `he_name`) VALUES
 (2, '本科'),
 (3, '大专'),
 (4, '其他');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ess_node`
+--
+
+CREATE TABLE IF NOT EXISTS `ess_node` (
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `remark` varchar(255) DEFAULT NULL,
+  `sort` smallint(6) unsigned DEFAULT NULL,
+  `pid` smallint(6) unsigned NOT NULL,
+  `level` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `level` (`level`),
+  KEY `pid` (`pid`),
+  KEY `status` (`status`),
+  KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -194,15 +241,54 @@ INSERT INTO `ess_prof_title_code` (`pt_id`, `pt_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ess_rule`
+-- 表的结构 `ess_role`
 --
 
-CREATE TABLE IF NOT EXISTS `ess_rule` (
-  `rule_id` int(11) NOT NULL,
-  `rule_name` varchar(32) DEFAULT NULL,
-  `rule_notes` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ess_role` (
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `pid` smallint(6) DEFAULT NULL,
+  `status` tinyint(1) unsigned DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`),
+  KEY `status` (`status`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- 转存表中的数据 `ess_role`
+--
+
+INSERT INTO `ess_role` (`id`, `name`, `pid`, `status`, `remark`) VALUES
+(1, '超级管理员', 0, 1, '系统内置超级管理员组，不受权限分配账号限制'),
+(2, '管理员', 1, 1, '拥有系统仅此于超级管理员的权限'),
+(3, '老师', 1, 1, '拥有所有操作的读权限，增加、修改的权限'),
+(4, '学生', 1, 1, '拥有所有操作的读、增加权限，无删除、修改的权限');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ess_role_user`
+--
+
+CREATE TABLE IF NOT EXISTS `ess_role_user` (
+  `role_id` mediumint(9) unsigned DEFAULT NULL,
+  `user_id` char(32) DEFAULT NULL,
+  UNIQUE KEY `user_id_2` (`user_id`),
+  KEY `group_id` (`role_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `ess_role_user`
+--
+
+INSERT INTO `ess_role_user` (`role_id`, `user_id`) VALUES
+(0, '0'),
+(3, '100'),
+(3, '101'),
+(4, '5002'),
+(4, '5001');
 
 -- --------------------------------------------------------
 
@@ -216,6 +302,14 @@ CREATE TABLE IF NOT EXISTS `ess_school_code` (
   `sch_notes` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`sch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `ess_school_code`
+--
+
+INSERT INTO `ess_school_code` (`sch_id`, `sch_name`, `sch_notes`) VALUES
+(1, '电子工程学院', '科研楼C区'),
+(22, '信息与软件工程学院', '信软楼');
 
 -- --------------------------------------------------------
 
@@ -284,6 +378,13 @@ CREATE TABLE IF NOT EXISTS `ess_teacher` (
   KEY `FK_tch_pt` (`pt_id`),
   KEY `FK_tch_sch` (`sch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `ess_teacher`
+--
+
+INSERT INTO `ess_teacher` (`tch_id`, `he_id`, `deg_id`, `pt_id`, `sch_id`, `dep_id`, `tch_name`, `tch_gender`, `tch_position`, `tch_office_phone`, `tch_mobile`, `tch_email`, `tch_qq`, `tch_notes`) VALUES
+(11111112, 1, 1, 1, 22, 1, '王小明', 1, '副教授', 813390862, 13402889000, '123456@uestc.edu.cn', 12345678, '无');
 
 -- --------------------------------------------------------
 
@@ -433,21 +534,44 @@ INSERT INTO `ess_ugp_excecution_phase_code` (`uep_id`, `uep_name`, `uep_descript
 
 CREATE TABLE IF NOT EXISTS `ess_ugp_notice` (
   `notice_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
   `notice_subject` varchar(64) DEFAULT NULL,
   `notice_content` text,
   `notice_user_id` bigint(20) DEFAULT NULL,
   `notice_update_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`notice_id`),
-  KEY `FK_user_notice` (`user_id`)
+  PRIMARY KEY (`notice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ess_ugp_notice`
 --
 
-INSERT INTO `ess_ugp_notice` (`notice_id`, `user_id`, `notice_subject`, `notice_content`, `notice_user_id`, `notice_update_time`) VALUES
-(1, 0, '2015届毕业设计中期检查', '信息与软件工程学院2015届毕业设计中期检查将于4.22-4.26日进行，请各位同学及时提交中期报告，逾期后果自负！', 2, '2016-04-22 03:22:20');
+INSERT INTO `ess_ugp_notice` (`notice_id`, `notice_subject`, `notice_content`, `notice_user_id`, `notice_update_time`) VALUES
+(1, '2015届毕业设计中期检查', '信息与软件工程学院2015届毕业设计中期检查将于4.22-4.26日进行，请各位同学及时提交中期报告，逾期后果自负！', 2, '2016-04-22 03:22:20');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ess_ugp_score`
+--
+
+CREATE TABLE IF NOT EXISTS `ess_ugp_score` (
+  `uuf_user_id` bigint(15) NOT NULL,
+  `knowledge` int(11) NOT NULL,
+  `format` int(11) NOT NULL,
+  `content` int(11) NOT NULL,
+  `quality` int(11) NOT NULL,
+  `complete` int(11) NOT NULL,
+  `summary` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  PRIMARY KEY (`uuf_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `ess_ugp_score`
+--
+
+INSERT INTO `ess_ugp_score` (`uuf_user_id`, `knowledge`, `format`, `content`, `quality`, `complete`, `summary`, `score`) VALUES
+(2014220301019, 13, 24, 12, 13, 15, 10, 84);
 
 -- --------------------------------------------------------
 
@@ -458,8 +582,11 @@ INSERT INTO `ess_ugp_notice` (`notice_id`, `user_id`, `notice_subject`, `notice_
 CREATE TABLE IF NOT EXISTS `ess_ugp_score_component_code` (
   `usc_id` int(11) NOT NULL,
   `ufc_id` int(11) DEFAULT NULL,
-  `usc_name` varchar(64) DEFAULT NULL,
-  `usc_max_score` smallint(6) DEFAULT NULL,
+  `format` int(11) NOT NULL,
+  `content` int(11) NOT NULL,
+  `quality` int(11) NOT NULL,
+  `complete` int(11) NOT NULL,
+  `summary` int(11) NOT NULL,
   PRIMARY KEY (`usc_id`),
   KEY `FK_usc_uuc` (`ufc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -468,9 +595,8 @@ CREATE TABLE IF NOT EXISTS `ess_ugp_score_component_code` (
 -- 转存表中的数据 `ess_ugp_score_component_code`
 --
 
-INSERT INTO `ess_ugp_score_component_code` (`usc_id`, `ufc_id`, `usc_name`, `usc_max_score`) VALUES
-(1, 1, '代码书写', 10),
-(2, 1, '总结', 15);
+INSERT INTO `ess_ugp_score_component_code` (`usc_id`, `ufc_id`, `format`, `content`, `quality`, `complete`, `summary`) VALUES
+(1, 1, 10, 40, 20, 20, 15);
 
 -- --------------------------------------------------------
 
@@ -515,24 +641,52 @@ CREATE TABLE IF NOT EXISTS `ess_ugp_uploaded_file` (
   `uuf_user_id` bigint(20) DEFAULT NULL,
   `uuf_true_name` varchar(30) NOT NULL,
   `uuf_name` text,
-  `uuf_path` varchar(64) DEFAULT NULL,
+  `uuf_path` varchar(256) DEFAULT NULL,
   `uuf_is_paper_doc_submited` tinyint(1) DEFAULT NULL,
   `uuf_last_update_record_id` timestamp NULL DEFAULT NULL,
   `uuf_last_review_record_id` bigint(20) DEFAULT NULL,
+  `uuf_teacher_id` bigint(15) NOT NULL,
+  `uuf_school_id` int(11) DEFAULT NULL,
+  `uuf_sort` int(11) DEFAULT '0',
   PRIMARY KEY (`uuf_id`),
   KEY `FK_uur_uuf` (`uur_id`),
   KEY `FK_urr_uuf` (`urr_id`),
-  KEY `FK_uuf_ufc` (`ufc_id`)
+  KEY `FK_uuf_ufc` (`ufc_id`),
+  KEY `uuf_user_id` (`uuf_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ess_ugp_uploaded_file`
 --
 
-INSERT INTO `ess_ugp_uploaded_file` (`uuf_id`, `ufc_id`, `urr_id`, `uur_id`, `uuf_user_id`, `uuf_true_name`, `uuf_name`, `uuf_path`, `uuf_is_paper_doc_submited`, `uuf_last_update_record_id`, `uuf_last_review_record_id`) VALUES
-(2014220301006, 2, NULL, NULL, 2014220301006, '阅读需求与信息素养教育模式研究——以电子科技大学图书馆为例.', '572218f925bdf.pdf', './Uploads/', 1, '2016-04-28 14:06:49', 0),
-(2014220301019, 2, 1, 1, 2014220301019, '电子科技大学计算电磁学实验室对计算电磁学的研究进展.pdf', '5720a855ca941.pdf', './Uploads/', 1, '2016-04-27 11:53:57', 0),
-(9223372036854775807, 2, NULL, NULL, 2014220301019, '电子科技大学计算电磁学实验室对计算电磁学的研究进展.pdf', '5728a6c72adc9.pdf', '../Uploads/', 1, '2016-05-03 13:25:27', 0);
+INSERT INTO `ess_ugp_uploaded_file` (`uuf_id`, `ufc_id`, `urr_id`, `uur_id`, `uuf_user_id`, `uuf_true_name`, `uuf_name`, `uuf_path`, `uuf_is_paper_doc_submited`, `uuf_last_update_record_id`, `uuf_last_review_record_id`, `uuf_teacher_id`, `uuf_school_id`, `uuf_sort`) VALUES
+(2014220301006, 2, NULL, NULL, 2014220301006, '基于Incites学科映射的一级学科文献计量分析——以电子科', '57a98cf53ec9f.pdf', './Uploads/', 1, '2016-08-09 07:57:51', 2, 11111112, 22, 3),
+(2014220301019, 2, NULL, NULL, 2014220301019, '阅读需求与信息素养教育模式研究——以电子科技大学图书馆为例.', '5752edc586945.pdf', './Uploads/', 1, '2016-06-04 15:03:41', 3, 0, 22, 2);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ess_ugp_uploaded_png`
+--
+
+CREATE TABLE IF NOT EXISTS `ess_ugp_uploaded_png` (
+  `png_id` int(11) NOT NULL AUTO_INCREMENT,
+  `stu_id` char(15) NOT NULL,
+  `png_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`png_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
+
+--
+-- 转存表中的数据 `ess_ugp_uploaded_png`
+--
+
+INSERT INTO `ess_ugp_uploaded_png` (`png_id`, `stu_id`, `png_name`) VALUES
+(49, '2014220301019', 'b8087e85a4f4204e548da67405fdc879.png'),
+(50, '2014220301019', 'c876cbf50532deb5b0b956d452678339.png'),
+(51, '2014220301019', '8165dc815016f7cf2f7f4108df74d8d8.png'),
+(52, '2014220301006', '4a43e825a06b986585715751b48b47c8.png'),
+(53, '2014220301006', 'aaf11d413f59c7e0d9be3e377fd76175.png'),
+(54, '2014220301006', '4851c0593130f61da16b67aab8a84a76.png');
 
 -- --------------------------------------------------------
 
@@ -541,47 +695,25 @@ INSERT INTO `ess_ugp_uploaded_file` (`uuf_id`, `ufc_id`, `urr_id`, `uur_id`, `uu
 --
 
 CREATE TABLE IF NOT EXISTS `ess_user` (
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(64) NOT NULL,
   `user_pwd` varchar(40) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `time` int(10) NOT NULL,
+  `remark` text,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5003 ;
 
 --
 -- 转存表中的数据 `ess_user`
 --
 
-INSERT INTO `ess_user` (`user_id`, `user_name`, `user_pwd`) VALUES
-(0, 'admin', '21232f297a57a5a743894a0e4a801fc3'),
-(100, '11111111', '1bbd886460827015e5d605ed44252251'),
-(5001, '2014220301019', '3d39668cb4d4c2cb78198f903e3366cb'),
-(5002, '2014220301006', '3d39668cb4d4c2cb78198f903e3366cb');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ess_user_group`
---
-
-CREATE TABLE IF NOT EXISTS `ess_user_group` (
-  `group_id` int(11) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`group_id`,`user_id`),
-  KEY `FK_user_group3` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ess_user_rule`
---
-
-CREATE TABLE IF NOT EXISTS `ess_user_rule` (
-  `rule_id` int(11) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`rule_id`,`user_id`),
-  KEY `FK_user_rule3` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `ess_user` (`user_id`, `user_name`, `user_pwd`, `status`, `time`, `remark`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 1448536863, ''),
+(100, '11111111', '1bbd886460827015e5d605ed44252251', 1, 1470389343, ''),
+(101, '11111112', '059fc16810ff3db79cac7a5a0527f490', 1, 1470711585, ''),
+(5001, '2014220301019', '3d39668cb4d4c2cb78198f903e3366cb', 1, 1462435740, ''),
+(5002, '2014220301006', '3d39668cb4d4c2cb78198f903e3366cb', 1, 1421866863, '');
 
 --
 -- 限制导出的表
@@ -607,13 +739,6 @@ ALTER TABLE `ess_enterprise_mentor`
 --
 ALTER TABLE `ess_enterprise_post`
   ADD CONSTRAINT `FK_enptr_post` FOREIGN KEY (`entpr_id`) REFERENCES `ess_enterprise` (`entpr_id`);
-
---
--- 限制表 `ess_group_rule`
---
-ALTER TABLE `ess_group_rule`
-  ADD CONSTRAINT `FK_group_rule2` FOREIGN KEY (`rule_id`) REFERENCES `ess_rule` (`rule_id`),
-  ADD CONSTRAINT `FK_group_rule3` FOREIGN KEY (`group_id`) REFERENCES `ess_group` (`group_id`);
 
 --
 -- 限制表 `ess_student`
@@ -643,20 +768,7 @@ ALTER TABLE `ess_ugp`
 -- 限制表 `ess_ugp_component_score`
 --
 ALTER TABLE `ess_ugp_component_score`
-  ADD CONSTRAINT `FK_ucs_usc` FOREIGN KEY (`usc_id`) REFERENCES `ess_ugp_score_component_code` (`usc_id`),
-  ADD CONSTRAINT `FK_ucs_uuc` FOREIGN KEY (`ufc_id`) REFERENCES `ess_ugp_uf_categary` (`ufc_id`);
-
---
--- 限制表 `ess_ugp_notice`
---
-ALTER TABLE `ess_ugp_notice`
-  ADD CONSTRAINT `FK_user_notice` FOREIGN KEY (`user_id`) REFERENCES `ess_user` (`user_id`);
-
---
--- 限制表 `ess_ugp_score_component_code`
---
-ALTER TABLE `ess_ugp_score_component_code`
-  ADD CONSTRAINT `FK_usc_uuc` FOREIGN KEY (`ufc_id`) REFERENCES `ess_ugp_uf_categary` (`ufc_id`);
+  ADD CONSTRAINT `FK_ufc_ufc` FOREIGN KEY (`ufc_id`) REFERENCES `ess_ugp_score_component_code` (`ufc_id`);
 
 --
 -- 限制表 `ess_ugp_uf_categary`
@@ -664,28 +776,6 @@ ALTER TABLE `ess_ugp_score_component_code`
 ALTER TABLE `ess_ugp_uf_categary`
   ADD CONSTRAINT `FK_ufc_uem` FOREIGN KEY (`uem_id`) REFERENCES `ess_ugp_excecution_mode_code` (`uem_id`),
   ADD CONSTRAINT `FK_ufc_uep` FOREIGN KEY (`uep_id`) REFERENCES `ess_ugp_excecution_phase_code` (`uep_id`);
-
---
--- 限制表 `ess_ugp_uploaded_file`
---
-ALTER TABLE `ess_ugp_uploaded_file`
-  ADD CONSTRAINT `FK_urr_uuf` FOREIGN KEY (`urr_id`) REFERENCES `ess_uf_review_record` (`urr_id`),
-  ADD CONSTRAINT `FK_uuf_ufc` FOREIGN KEY (`ufc_id`) REFERENCES `ess_ugp_uf_categary` (`ufc_id`),
-  ADD CONSTRAINT `FK_uur_uuf` FOREIGN KEY (`uur_id`) REFERENCES `ess_uf_update_record` (`uur_id`);
-
---
--- 限制表 `ess_user_group`
---
-ALTER TABLE `ess_user_group`
-  ADD CONSTRAINT `FK_user_group2` FOREIGN KEY (`group_id`) REFERENCES `ess_group` (`group_id`),
-  ADD CONSTRAINT `FK_user_group3` FOREIGN KEY (`user_id`) REFERENCES `ess_user` (`user_id`);
-
---
--- 限制表 `ess_user_rule`
---
-ALTER TABLE `ess_user_rule`
-  ADD CONSTRAINT `FK_user_rule2` FOREIGN KEY (`rule_id`) REFERENCES `ess_rule` (`rule_id`),
-  ADD CONSTRAINT `FK_user_rule3` FOREIGN KEY (`user_id`) REFERENCES `ess_user` (`user_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

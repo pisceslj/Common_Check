@@ -1,0 +1,1 @@
+<div class="footer"> &copy; 2016 <a href="http://119.29.229.22/" target="_blank">FireWork Studio</a></div>

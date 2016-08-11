@@ -14,6 +14,7 @@
         <script type="text/javascript" src="__PUBLIC__/Js/asyncbox.js"></script>
         <script type="text/javascript" src="__PUBLIC__/Js/base.js"></script>
         <script type="text/javascript" src="__PUBLIC__/Js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/Js/jquery.cookie.js"></script>
         <script type="text/javascript" src="__PUBLIC__/Js/app.js"></script>
     </head>
     <body>
@@ -51,7 +52,9 @@
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
                             <thead>
                                 <tr>
-                                    <td width="90"><label><input name="" class="chooseAll" type="checkbox"/> 全选</label> <label><input name="" class="unsetAll" type="checkbox"/> 反选</label></td>
+                                    <td width="90">
+                                    <label><input name="" class="chooseAll" type="checkbox" onclick="dosubmit('choose','checkQuan')"/> 全选</label> 
+                                    <label><input name="" class="unsetAll" type="checkbox" onclick="reserveCheck('choose','checkQuan')"/> 反选</label></td>
                                     <td>论文标题</td>
                                     <td>状态</td>
                                     <td>发布时间</td>
@@ -62,7 +65,7 @@
                             <tbody>
                                 <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$paper): $mod = ($i % 2 );++$i;?><tr align="center">
                                         <td class="center" width="90">
-                                            <input class="uids" type="checkbox" name="uids[]" value="<?php echo ($paper['uuf_user_id']); ?>">
+                                        <input class="uids" type="checkbox" name="choose" value="<?php echo ($paper['uuf_user_id']); ?>">
                                         </td>
                                         <td><?php echo ($paper["uuf_true_name"]); ?></td>
                                         <td><?php if($paper["status"] == 0): ?>未审核
@@ -71,10 +74,16 @@
                                         <?php else: ?>已审核<?php endif; ?></td>
                                         <td><?php echo ($paper["uuf_last_update_record_id"]); ?></td>
                                         <td><?php echo ($paper["uuf_user_id"]); ?></td>
-                                        <td class="center">
-                   <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg_1" ><a link="<?php echo U('Teacher/look');?>?uid=<?php echo ($paper['uuf_user_id']); ?>" >浏览</a></button>
-                   <a href="<?php echo U('Teacher/mark');?>?uids=<?php echo ($paper['uuf_user_id']); ?>"><input type="button" class="btn btn-default" value="打分"></input></a>
-                                        </td>
+                                     <td class="center">
+                                     <!--a href="<?php echo U('Teacher/concrete');?>?uids=<?php echo ($paper['uuf_user_id']); ?>"-->
+                                        <button type="button" class="btn btn-default" id = "btn"  data-toggle="modal" data-target=".bs-example-modal-lg_1">
+                                        浏览</button>
+                                        <!--/a-->  
+                                        <a href="<?php echo U('Teacher/mark');?>?uids=<?php echo ($paper['uuf_user_id']); ?>">
+                                        <input type="button" class="btn btn-default" value="打分">
+                                        </input>
+                                        </a>                               
+                                    </td>
                                     </tr><?php endforeach; endif; else: echo "" ;endif; ?>
                             </tbody>
                         </table>
@@ -97,7 +106,6 @@
             </div>
         </div>
         <div class="clear"></div>
-       
         <div id="Bottom">© 2015 All rights reserved By <a href="http://www.ss.uestc.edu.cn/" target="_blank">电子科技大学信软学院</a></div>
 <script type="text/javascript">
     $(window).resize(autoSize);
@@ -119,6 +127,66 @@
     });
 
 </script>
+        <script type="text/javascript">
+        function dosubmit(name,id){
+            var names=document.getElementById(id);
+            if(names.checked==true){
+                checkedAll(name)
+            }
+            else{
+                checkedNo(name)
+            }
+        }
+
+        //全选
+        function checkedAll(name){
+            var names=document.getElementsByName(name);
+            var len=names.length;
+            if(len>0){
+                var i=0;
+                for(i=0;i<len;i++)
+                    names[i].checked=true;
+            }
+        }
+
+        //全不选
+        function checkedNo(name){
+            var names=document.getElementsByName(name);
+            var len=names.length;
+            if(len>0){
+                var i=0;
+                for(i=0;i<len;i++)
+                    names[i].checked=false;
+            }
+        }
+
+        //反选
+        function reserveCheck(name){
+            var names=document.getElementsByName(name);
+            var len=names.length;
+            if(len>0){
+                var i=0;
+                for(i=0;i<len;i++){
+                    if(names[i].checked)
+                        names[i].checked=false;
+                    else
+                        names[i].checked=true;
+                }
+            }
+        }
+
+        
+        //回传数据
+        $(document).ready(function(){
+            $("button").click(function(){
+                var name = "uids";           
+                $.cookie('uids', name);       //存储cookie名字
+                //alert($.cookie("uids"));      //弹出结果  curious------取得该cookie的name
+                
+                $.cookie('uids', <?php echo ($paper['uuf_user_id']); ?>);  //存储cookie数据
+            });
+        });
+        </script>
 
     </body>
 </html>

@@ -54,11 +54,7 @@ public function process(){
         $process[0]['score'] = $info[0]['score'];
         $process[0]['time'] = $info1[0]['uuf_last_update_record_id'];
         $process[0]['teacher'] = $techInfo[0]['tch_name'];
-        //var_dump($status);
-        //var_dump($techInfo);
-        //var_dump($info1);
-        //var_dump($info);
-        //var_dump($process);
+        
         $this->assign('process', $process);
         $this->display();
 }
@@ -76,8 +72,10 @@ public function process(){
         $this->display();
     }
 
-// 文件上传
-public function _upload() {
+/**
+ * 
+ */
+public function _upload(){
         import('ORG.Net.UploadFile');//导入上传类
         $upload = new UploadFile();
         $upload->maxSize    = 3292200;//设置上传文件大小
@@ -122,23 +120,12 @@ public function _upload() {
             $pngName->add($png);
         }
         
-        
-        //$this->assign('list2',$p);
-        //return $data;
-        /*$updateRecord  = M('Ugp_update_record');
-        $record[''] = ;
-        $record[''] = ;
-        $record[''] = ;
-        $flag = $updateRecord->add($record);
-        return $record;*/
         if ($list != false) {
-            $this->success('上传文件成功！',U("Student/upload"));
+            $this->success('上传文件成功！',U("Student/index"));
         } else {
             $this->error('上传文件失败!');
         }
-    } 
-
-
+}
 /**
  * 将上传的pdf文件转成jpg
  * @param   $PDF  上传的pdf文件

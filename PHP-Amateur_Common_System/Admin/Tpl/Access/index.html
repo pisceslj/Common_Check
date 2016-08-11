@@ -35,7 +35,10 @@
                                 <td>{$vo.user_name}</td>
                                 <td>{$vo.statusTxt}</td>
                                 <td>{$vo.time|date='Y-m-d H:i:s',###}</td>
-                                <td><if condition="$vo.user_name eq C('ADMIN_AUTH_KEY')">--<else/>[ <a href="__URL__/editAdmin?uid={$vo.user_id}">编辑</a> ]</if></td>
+                                <td>
+                                    [ <a href="__URL__/editUser?uid={$vo.user_id}">编辑</a> ]
+                                    [ <a href="__URL__/delete?uid={$vo.user_id}">删除</a> ]
+                                </td>
                             </tr>
                         </volist>
                     </table>

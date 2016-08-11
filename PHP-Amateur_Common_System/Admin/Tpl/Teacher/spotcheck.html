@@ -57,8 +57,16 @@
                                         <else />已审核</if></td>
                                     <td>{$paper.uuf_last_update_record_id}</td>
                                     <td>{$paper.uuf_user_id}</td>
-                                    <td class="center"><button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg_1"><a href="{:U('Teacher/look')}?uid={$paper['uuf_user_id']}">浏览</a></button>
-                   <a href="{:U('Teacher/mark')}?uids={$paper['uuf_user_id']}"><input type="button" class="btn btn-default" value="打分"></input></a>
+                                    <td class="center">
+                                    <a href="javascript:void(0)?uids={$paper['uuf_user_id']}">
+                                        <button type="button" class="btn btn-default" value="浏览"  data-toggle="modal" data-target=".bs-example-modal-lg_1">
+                                        浏览</button>
+                                        </a>
+                                        <a href="{:U('Teacher/mark')}?uids={$paper['uuf_user_id']}">
+                                        <input type="button" class="btn btn-default" value="打分">
+                                        </input>
+                                        </a>
+                                                                      
                                     </td>
                                 </tr>
                             </volist>

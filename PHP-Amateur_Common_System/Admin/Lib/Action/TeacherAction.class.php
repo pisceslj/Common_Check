@@ -38,7 +38,9 @@ public function concrete(){
         $this->assign('list',$list);
        
         $pngName = M('Ugp_uploaded_png');
-        $condition['stu_id'] = $_GET['uid'];
+        //$condition1['stu_id'] = '2014220301006';
+        //dump(cookie(cookie('uids')));
+        //$png = $pngName->where($condition1)->select();
         $png = $pngName->select();
         $this->assign('png',$png);
         $this->display();
@@ -81,13 +83,14 @@ public function update(){
   $score = M("Ugp_score"); 
   $p = session('uid');
   $result = $score->where("uuf_user_id=".$p)->select(); //用于复审打分判断
-  if(!empty($result)){ 
+  if(!empty($result)){
+    $score->where(array('uuf_user_id'=>$p))->setField('konwledge',$_POST['konwledge']); 
     $score->where(array('uuf_user_id'=>$p))->setField('format',$_POST['format']);
     $score->where(array('uuf_user_id'=>$p))->setField('content',$_POST['content']);
     $score->where(array('uuf_user_id'=>$p))->setField('quality',$_POST['quality']);
     $score->where(array('uuf_user_id'=>$p))->setField('complete',$_POST['complete']);
     $score->where(array('uuf_user_id'=>$p))->setField('summary',$_POST['summary']);
-    $sum = $_POST['format']+$_POST['content']+$_POST['quality']+$_POST['complete']+$_POST['summary'];
+    $sum = $_POST['konwledge']+$_POST['format']+$_POST['content']+$_POST['quality']+$_POST['complete']+$_POST['summary'];
     $score->where(array('uuf_user_id'=>$p))->setField('score',$sum);
     $file->where(array('uuf_user_id'=>$p))->setField('uuf_teacher_id',0);
     $file->where(array('uuf_user_id'=>$p))->setField('uuf_sort',2);
@@ -96,12 +99,13 @@ public function update(){
       $p = session('uid');
       $score1 = M('Ugp_score');
       $data['uuf_user_id'] = $p;
+      $data['konwledge'] = $_POST['konwledge'];
       $data['format'] = $_POST['format'];
       $data['content'] = $_POST['content'];
       $data['quality'] = $_POST['quality'];
       $data['complete'] = $_POST['complete'];
       $data['summary'] = $_POST['summary'];
-      $sum = $_POST['format']+$_POST['content']+$_POST['quality']+$_POST['complete']+$_POST['summary'];
+      $sum = $_POST['konwledge']+$_POST['format']+$_POST['content']+$_POST['quality']+$_POST['complete']+$_POST['summary'];
       $data['score'] = $sum;
       $list = $score1->add($data);
       if ($list != false) {
@@ -152,7 +156,8 @@ public function review(){
         $this->assign('list',$list);
        
         $pngName = M('Ugp_uploaded_png');
-        $png = $pngName->select();
+        $condition1['stu_id'] = cookie(cookie('uids'));
+        $png = $pngName->where($condition1)->select();
         $this->assign('png',$png);
         $this->display();
 }
@@ -184,7 +189,8 @@ public function spotcheck(){
     $list  = $user->where($where)->select();
     $this->assign('list',$list);  
     $pngName = M('Ugp_uploaded_png');
-    $png = $pngName->select();
+    $condition1['stu_id'] = $_GET['keyword'];
+    $png = $pngName->where($condition1)->select();
     $this->assign('png',$png);
     $this->display();
 }

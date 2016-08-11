@@ -17,12 +17,11 @@ $config_arr2 = array(
             'spotcheck' =>'抽查任务',
         ),
         'Access' => array(
-            'index' => '后台用户',
+            'index' => '用户列表',
+            'roleList' => '角色管理',
+            'addUser' => '添加用户',
             'taskAllocation' => '初审任务分配',
             'reTaskAllocation'=>'复审任务分配',
-            'roleList' => '角色管理',
-            'addAdmin' => '添加管理员',
-            'addRole' => '添加角色',
         ),
     ),
     /*

@@ -66,7 +66,10 @@
                                 <td><?php echo ($vo["user_name"]); ?></td>
                                 <td><?php echo ($vo["statusTxt"]); ?></td>
                                 <td><?php echo (date('Y-m-d H:i:s',$vo["time"])); ?></td>
-                                <td><?php if($vo["user_name"] == C('ADMIN_AUTH_KEY')): ?>--<?php else: ?>[ <a href="__URL__/editAdmin?uid=<?php echo ($vo["user_id"]); ?>">编辑</a> ]<?php endif; ?></td>
+                                <td>
+                                    [ <a href="__URL__/editUser?uid=<?php echo ($vo["user_id"]); ?>">编辑</a> ]
+                                    [ <a href="__URL__/delete?uid=<?php echo ($vo["user_id"]); ?>">删除</a> ]
+                                </td>
                             </tr><?php endforeach; endif; else: echo "" ;endif; ?>
                     </table>
                 </div>

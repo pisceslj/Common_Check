@@ -2,7 +2,6 @@
 
 class CommonAction extends Action {
 
-       //public $loginMarked;
     /**
      * 初始化
      * 如果 继承本类的类自身也需要初始化那么需要在使用本继承类的类里使用parent::_initialize();
@@ -18,15 +17,10 @@ class CommonAction extends Action {
             $systemConfig['TOKEN']['member_marked'] = "http://202.115.16.61:8880/experiment/Login/login.xhtml";//试验中心
             $systemConfig['TOKEN']['member_timeout'] = 3600;
             F("systemConfig", $systemConfig, WEB_ROOT . "Common/");
-            if (is_dir(WEB_ROOT . "install/")) {
-                delDirAndFile(WEB_ROOT . "install/", TRUE);//安装完成之后删除install文件夹
-            }
-        }
-        //$this->loginMarked = md5($systemConfig['TOKEN']['admin_marked']);//MD5加密*/        
+        }     
         
         $this->assign("sub_menu", $this->show_sub_menu());//显示二级菜单栏，即左侧竖着那栏
         $this->assign("my_info", session('username'));
-        //$this->assign("site", $systemConfig);
     }
 
 /**

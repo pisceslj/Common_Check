@@ -32,22 +32,68 @@
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
                             <thead>
                                 <tr>
-                                    <td>论文格式(10)</td>
-                                    <td>主体内容(40)</td>
-                                    <td>代码质量(20)</td>
-                                    <td>完成程度(15)</td>
-                                    <td>心得总结(15)</td>
+                                    <td>序号</td>
+                                    <td>评价项目</td>
+                                    <td>能力目标</td>
+                                    <td>分项占比</td>
+                                    <td colspan="4">评判标准</td>
+                                    <td>考核分数</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>对行业技术问题及相关技术方案的学习，认识情况</td>
+                                    <td>AO1</td>
+                                    <td>0.25</td>
+                                    <td colspan="2">  认识、学习行业技术问题，<br>能在安全、环境、法律等约束条件下，<br>  通过技术经济评价对行业技术问题  <br>设计方案可行性进行研究。  </td>
+                                    <td colspan="2">优秀[22.5，25]<br>良好[17.5,22.5)<br>中等[12.5,17.5)<br>较差[7.5 , 12.5)<br>不及格[ 0 , 7.5 )</td>
+                                    <td><input class="input" name="format" id="format" size="5" type="format" /></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>对行业技术问题及相关技术方案的学习，认识情况</td>
+                                    <td>AO2</td>
+                                    <td>0.15</td>
+                                    <td colspan="2">能分析、总结和归纳企业实训<br>执行过程中存在的主要问题，具有<br>良好的心理素质和应对风险与挑<br>战的能力；能综合应用工程管理原<br>理和经济决策方法开展计划。</td>
+                                    <td colspan="2">优秀[13.5，15]<br>良好[10.5,13.5)<br>中等[7.5 ,10.5)<br>较差[ 4.5 , 7.5)<br>不及格[0 , 4.5 )</td>
+                                    <td><input class="input" name="content" id="content" size="5" type="content" /></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>工具与技能学习情况</td>
+                                    <td>AO2</td>
+                                    <td>0.15</td>
+                                    <td colspan="2">能够学习掌握获取技术、资源、<br>现代软件工程工具和信息技术<br>工具的能力。</td>
+                                    <td colspan="2">优秀[13.5，15]<br>良好[10.5,13.5)<br>中等[7.5 ,10.5)<br>较差[ 4.5 , 7.5)<br>不及格[0 , 4.5 )</td>
+                                    <td><input class="input" name="quality" id="quality" size="5" type="quality" /></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>团队协作与交流情况</td>
+                                    <td>AO3</td>
+                                    <td>0.15</td>
+                                    <td colspan="2">能够与项目组成员协作交流，<br>包括与其他学科的成员合作并开<br>展工作。</td>
+                                    <td colspan="2">优秀[13.5，15]<br>良好[10.5,13.5)<br>中等[7.5 ,10.5)<br>较差[ 4.5 , 7.5)<br>不及格[0 , 4.5 )</td>
+                                    <td><input class="input" name="complete" id="complete" size="5" type="complete" /></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>对于职业岗位与职业素养的认识</td>
+                                    <td>AO4</td>
+                                    <td>0.15</td>
+                                    <td colspan="2">能够评价复杂软件工程的解<br>决方案对社会、健康、安全、法律<br>以及文化的影响，并理解应承担的<br>责任；具有软件工程系统的质量、<br>环境、职业健康、安全和服务意识，<br>理解并遵守职业道德和规范。</td>
+                                    <td colspan="2">优秀[13.5，15]<br>良好[10.5,13.5)<br>中等[7.5 ,10.5)<br>较差[ 4.5 , 7.5)<br>不及格[0 , 4.5 )</td>
+                                    <td><input class="input" name="summary" id="summary" size="5" type="summary" /></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>文档报告写作水平</td>
+                                    <td>AO3</td>
+                                    <td>0.15</td>
+                                    <td colspan="2">企业实训总结报告结构严谨，<br>逻辑性强，论述层次清晰，语言准<br>确，文字流畅，符合规范要求。</td>
+                                    <td colspan="2">优秀[13.5，15]<br>良好[10.5,13.5)<br>中等[7.5 ,10.5)<br>较差[ 4.5 , 7.5)<br>不及格[0 , 4.5 )</td>
+                                    <td><input class="input" name="konwledge" id="konwledge" size="5" type="konwledge" /></td>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr align="center">
-                                    <td><input class="input" name="format" id="format" size="15" type="format" /></td>
-                                    <td><input class="input" name="content" id="content" size="15" type="content" /></td>
-                                    <td><input class="input" name="quality" id="quality" size="15" type="quality" /></td>
-                                    <td><input class="input" name="complete" id="complete" size="15" type="complete" /></td>
-                                    <td><input class="input" name="summary" id="summary" size="15" type="summary" /></td>
-                                </tr>
-                            </tbody>
                         </table>
                         <div class="commonBtnArea" >
                             <span class="fr" id="opStatus" style="width:450px; display: none; margin: -8px; line-height: 16px;"></span>
@@ -62,24 +108,28 @@
 <include file="Common:foot" />
 <script type="text/javascript">
     $(".submit").click(function(){
+        if($.trim($("input[name='konwledge']").val())==''){
+            popup.alert("序号1分数不能为空");
+            return false;
+        }
         if($.trim($("input[name='format']").val())==''){
-            popup.alert("论文格式分数不能为空");
+            popup.alert("序号2分数不能为空");
             return false;
         }
         if($.trim($("input[name='content']").val())==''){
-            popup.alert("主体内容分数不能为空");
+            popup.alert("序号3分数不能为空");
             return false;
         }
         if($.trim($("input[name='quality']").val())==''){
-            popup.alert("代码质量分数不能为空");
+            popup.alert("序号4分数不能为空");
             return false;
         }
         if($.trim($("input[name='complete']").val())==''){
-            popup.alert("完成程度分数不能为空");
+            popup.alert("序号5分数不能为空");
             return false;
         }
         if($.trim($("input[name='summary']").val())==''){
-            popup.alert("心得总结分数不能为空");
+            popup.alert("序号6分数不能为空");
             return false;
         }
     });

@@ -21,37 +21,42 @@
                     <form action="{:U('Access/addAdmin')}" method="post">
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
                             <tr>
-                                <th width="120">新账号：</th>
-                                <td><input <if condition="ACTION_NAME eq 'editAdmin'"> disabled="disabled"</if> name="user_name" type="text" class="input" size="40" value="{$info.user_name}" /></td>
+                                <th>UID：</th>
+                                <td><input class="input" name="user_id" type="text" size="30" value="" /></td>
+                            </tr>
+                            <tr>
+                                <th width="100">新账号：</th>
+                                <td><input class="input" name="user_name" type="text" size="30" value="" /></td>
                             </tr>
                             <tr>
                                 <th>新密码：</th>
-                                <td><input class="input" name="user_pwd" type="password" size="40" value="" /></td>
+                                <td><input class="input" name="user_pwd" type="password" size="30" value="" /></td>
                             </tr>
                             <tr>
                                 <th>状态：</th>
                                 <td>
                                     <select name="status" style="width: 80px;">
-                                        <if condition="$info.status eq 1">
-                                            <option value="1" selected>启用</option>
-                                            <option value="0">禁用</option>
-                                            <else/>
-                                            <option value="1">启用</option>
-                                            <option value="0" selected>禁用</option>
-                                        </if>
+                                        <option value="1" selected>启用</option>
+                                        <option value="0">禁用</option>
                                     </select>
                                     如果禁用了将无法登陆本系统</td>
                             </tr>
                             <tr>
                                 <th>所属用户组</th>
-                                <td><select name="role_id" style="min-width: 80px;">{$info.roleOption}</select></td>
+                                <td>
+                                    <select name="role_id" style="width: 80px;">
+                                        <option value="2" selected>管理员</option>
+                                        <option value="3" >老师</option>
+                                        <option value="4" >学生</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <th>备注：</th>
-                                <td><textarea name="remark" rows="5" cols="57">{$info.remark}</textarea></td>
+                                <td><textarea name="remark" rows="4" cols="57"></textarea></td>
                             </tr>
                         </table>
-                                <input type="hidden" name="user_id" value="{$info.user_id}"/>
+                                <input type="hidden" name="time" value=""/>
                          <div class="commonBtnArea">
                                 <button class="btn submit">提交</button>
                          </div>
@@ -65,7 +70,11 @@
 <script type="text/javascript">
     $(".submit").click(function(){
         <if condition="ACTION_NAME neq 'editAdmin'">
-            if($.trim($("input[name='user_name']").val())==''){
+        if($.trim($("input[name='user_id']").val())==''){
+            popup.alert("UID不能为空");
+            return false;
+        }
+        if($.trim($("input[name='user_name']").val())==''){
             popup.alert("账号不能为空");
             return false;
         }
