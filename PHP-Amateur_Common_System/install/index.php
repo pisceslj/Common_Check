@@ -10,15 +10,16 @@ date_default_timezone_set('PRC');
 error_reporting(E_ALL & ~E_NOTICE);
 header('Content-Type: text/html; charset=UTF-8');
 define('SITEDIR', _dir_path(substr(dirname(__FILE__), 0, -8)));
-define("VERSION", '2013-03-26 by 永不言弃');
+define("VERSION", '2016-06-26 ');
 $sqlFile = 'common_check.sql';
 $configFile = 'config.php';
 if (!file_exists(SITEDIR . 'install/' . $sqlFile)) {
     echo '缺少数据库文件!';
     exit;
 }
-$Title = "PHP-Amateur PHP爱好者";
-$Powered = "Powered by bolg.51edm.org";
+
+$Title = "PHP通用审核系统";
+$Powered = "Powered by FireWork Studio";
 $steps = array(
     '1' => '安装许可协议',
     '2' => '运行环境检测',
@@ -112,7 +113,7 @@ switch ($step) {
             $dbUser = trim($_POST['dbuser']);
             $dbPwd = trim($_POST['dbpw']);
             $dbPrefix = empty($_POST['dbprefix']) ? 'think_' : trim($_POST['dbprefix']);
-            $email = trim($_POST['manager_email']);
+            $name = trim($_POST['manager_name']);
             $password = trim($_POST['manager_pwd']);
             $verify = randCode(6);
             $config = array();
@@ -121,7 +122,7 @@ switch ($step) {
             $config['SITE_INFO']['description'] = trim($_POST['siteinfo']); //描述
             $config['WEB_ROOT'] = trim($_POST['siteurl']); //网站域名
             $config['AUTH_CODE'] = $verify;
-            $config['ADMIN_AUTH_KEY'] = $email;
+            $config['ADMIN_AUTH_KEY'] = $name;
             $config['DB_HOST'] = $dbHost;
             $config['DB_NAME'] = $dbName;
             $config['DB_USER'] = $dbUser;
@@ -195,7 +196,7 @@ switch ($step) {
             //插入管理员
             $password = md5($verify . md5($password));
             $time = time();
-            $query = "INSERT INTO `{$dbPrefix}admin` VALUES ('1', '超级管理员', '{$email}','{$password}',1,  '我是超级管理员 哈哈~~',NULL, $time);";
+            $query = "INSERT INTO `{$dbPrefix}user` VALUES ('1', '{$name}','{$password}',1, $time,'我是超级管理员');";
             mysql_query($query);
             $message = '成功添加管理员<br />成功写入配置文件<br>安装完成．';
 

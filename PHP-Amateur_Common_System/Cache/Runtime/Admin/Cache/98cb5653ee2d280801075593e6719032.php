@@ -75,10 +75,10 @@
                                         <td><?php echo ($paper["uuf_last_update_record_id"]); ?></td>
                                         <td><?php echo ($paper["uuf_user_id"]); ?></td>
                                      <td class="center">
-                                     <a href="<?php echo U('Teacher/concrete');?>?uids=<?php echo ($paper['uuf_user_id']); ?>">
+                                     <!--a href="<?php echo U('Teacher/concrete');?>?uids=<?php echo ($paper['uuf_user_id']); ?>"-->
                                         <button type="button" class="btn btn-default submit" id = "btn"  data-toggle="modal" data-target=".bs-example-modal-lg_1">
                                         浏览</button>
-                                        </a>  
+                                        <!--/a-->  
                                         <a href="<?php echo U('Teacher/mark');?>?uids=<?php echo ($paper['uuf_user_id']); ?>">
                                         <input type="button" class="btn btn-default" value="打分">
                                         </input>
@@ -188,7 +188,6 @@
         $(function(){
                 $(".submit").click(function(){
                     commonAjaxSubmit();
-                    alert("lujie");
                     return false;
                 });
             });

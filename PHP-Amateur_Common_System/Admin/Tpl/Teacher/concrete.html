@@ -58,10 +58,10 @@
                                         <td>{$paper.uuf_last_update_record_id}</td>
                                         <td>{$paper.uuf_user_id}</td>
                                      <td class="center">
-                                     <!--a href="{:U('Teacher/concrete')}?uids={$paper['uuf_user_id']}"-->
-                                        <button type="button" class="btn btn-default" id = "btn"  data-toggle="modal" data-target=".bs-example-modal-lg_1">
+                                     <a href="{:U('Teacher/concrete')}?uids={$paper['uuf_user_id']}">
+                                        <button type="button" class="btn btn-default submit" id = "btn"  data-toggle="modal" data-target=".bs-example-modal-lg_1">
                                         浏览</button>
-                                        <!--/a-->  
+                                        </a>  
                                         <a href="{:U('Teacher/mark')}?uids={$paper['uuf_user_id']}">
                                         <input type="button" class="btn btn-default" value="打分">
                                         </input>
@@ -75,6 +75,7 @@
                         <span class="fr" id="opStatus" style="width:450px; display: none; margin: -8px; line-height: 16px;"></span>
                          <a href="{:U('Teacher/sendBack')}?uids={$paper['uuf_user_id']}"><input type="button" class="btn" value="退回初审论文"></input></a>
                     </div>
+                     <input type="hidden" name="uids" value="{$paper['uuf_user_id']}" />
                     </form>
                     <div class="modal fade bs-example-modal-lg_1" tabindex="-1" role="dialog" aria-hidden="true">
                        <div class="modal-dialog modal-lg">
@@ -143,15 +144,20 @@
 
         
         //回传数据
-        $(document).ready(function(){
+        /*$(document).ready(function(){
             $("button").click(function(){
-                var name = "uids";           
-                $.cookie('uids', name);       //存储cookie名字
-                //alert($.cookie("uids"));      //弹出结果  curious------取得该cookie的name
                 
-                $.cookie('uids', {$paper['uuf_user_id']});  //存储cookie数据
+                commonAjaxSubmit();
+                alert("lujie");
             });
-        });
+        });*/
+        $(function(){
+                $(".submit").click(function(){
+                    commonAjaxSubmit();
+                    //alert("lujie");
+                    return false;
+                });
+            });
         </script>
 
     </body>

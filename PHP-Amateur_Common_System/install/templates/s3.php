@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <td class="tar">数据库表前缀：</td>
-                                <td><input type="text" name="dbprefix" id="dbprefix" value="pa_" class="input"></td>
+                                <td><input type="text" name="dbprefix" id="dbprefix" value="ess_" class="input"></td>
                                 <td><div id="J_install_tip_dbprefix"><span class="gray">建议使用默认，同一数据库安装多个通用后台时需修改</span></div></td>
                             </tr>
                         </table>
@@ -64,7 +64,7 @@
                             </tr>
                             <tr>
                                 <td class="tar">网站名称：</td>
-                                <td><input type="text" name="sitename" value="PHP-Amateur通用内容管理系统后台" class="input"></td>
+                                <td><input type="text" name="sitename" value="PHP通用审核系统" class="input"></td>
                                 <td><div id="J_install_tip_sitename"></div></td>
                             </tr>
                             <tr>
@@ -79,7 +79,7 @@
                             </tr>
                             <tr>
                                 <td class="tar">描述：</td>
-                                <td><textarea class="input" name="siteinfo">分享自己写的php代码和收藏比较好的php代码，点滴PHP记录提升技术能力</textarea></td>
+                                <td><textarea class="input" name="siteinfo">2015年创新项目</textarea></td>
                                 <td><div id="J_install_tip_siteinfo"></div></td>
                             </tr>
                         </table>
@@ -91,7 +91,7 @@
                             </tr>
                             <tr>
                                 <td class="tar">管理员帐号：</td>
-                                <td><input type="text" name="manager_email" class="input" value=""></td>
+                                <td><input type="text" name="manager_name" class="input" value=""></td>
                             </tr>
                             <tr>
                                 <td class="tar">密码：</td>
@@ -166,7 +166,7 @@
                         siteurl : '请以“/”结尾',
                         sitekeywords : '',
                         siteinfo : '',
-                        manager_email : ''
+                        manager_name : ''
                     };
 
 
@@ -221,7 +221,7 @@
                                 required	: true,
                                 equalTo : '#J_manager_pwd'
                             },
-                            manager_email: {
+                            manager_name: {
                                 required	: true,
                                 email : true
                             }
@@ -242,7 +242,7 @@
                             var _this = this;
                             $(element).parents('tr').removeClass('current');
 
-                            if(element.name === 'email') {
+                            /*if(element.name === 'email') {
                                 //邮箱匹配点击后，延时处理
                                 setTimeout(function(){
                                     _this.element(element);
@@ -251,7 +251,7 @@
 
                                 _this.element(element);
 
-                            }
+                            }*/
 
                         },
                         messages: {
@@ -283,10 +283,9 @@
                                 required	: '重复密码不能为空',
                                 equalTo : '两次输入的密码不一致。请重新输入'
                             },
-                            /*manager_email: {
-                                required	: 'Email不能为空',
-                                email : '请输入正确的电子邮箱地址'
-                            }*/
+                            manager_name: {
+                                required	: '管理员帐号不能为空'
+                            }
                         },
                         submitHandler:function(form) {
                             form.submit();

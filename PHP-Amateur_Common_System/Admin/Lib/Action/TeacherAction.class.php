@@ -38,14 +38,13 @@ public function concrete(){
         $this->assign('list',$list);
        
         $pngName = M('Ugp_uploaded_png');
-        //$condition1['stu_id'] = '2014220301006';
-        //dump(cookie(cookie('uids')));
-        //$png = $pngName->where($condition1)->select();
-        $png = $pngName->select();
+        $condition1['stu_id'] = (int) $_GET['uuf_user_id'];
+        //dump($_GET['uids']);
+        $png = $pngName->where($condition1)->select();
+        //$png = $pngName->select();
         $this->assign('png',$png);
         $this->display();
 }    
-   
 /**
  * @return 退回所上传的文件
  */
